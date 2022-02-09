@@ -73,13 +73,14 @@ class DitDataFrame:
         """ Constructeur prenant un seul parametre
         - un dictionnaire
         - la clé du dictionnaire est une chaine de caractère
-        - la valeur du dictionnaire est une liste contenant des elements de n'importe quel type
-
-        - les attributs initialisés seront:
+        - la valeur du dictionnaire est une liste contenant des elements de n'importe quel type"""
+        self.d = d 
+        """- les attributs initialisés seront:
         - self.series_map, correspondra à un dictionnaire de type DitSeries
         - self.length, la longueur du DataFrame
         """
-
+        self.series_map = DitSeries(self.d.keys(),self.d)
+        self.length = len(self.d.keys())
 
     def __getitem__(self, key: str) -> DitSeries:
         return self.series_map[key]
@@ -92,7 +93,7 @@ class DitDataFrame:
 
     def __repr__(self):
         width = 5
-        headers = " | ".join(header.rjust(width) for header in self.series_map)
+        headers = " | ".join(header.rjust(width) for header in self.series_map.name)
         divider = "-" * len(headers)
         rows = tuple(
             " | ".join(
@@ -134,10 +135,3 @@ if __name__ == "__main__":
 #       23 |   bar |  57.6 |   192
 #       11 |   baz |  89.1 |   173
 
-    # print(df.length)  # affiche 3
-
-    # names = df["names"]
-    # print(names)  # <DitSeries: names {0: 'foo', 1: 'bar', 2: 'baz'}>
-
-    # where = df["heights"] > 160
-    # print(df["names"][where])  # <DitSeries: names {1: 'bar', 2: 'baz'}>
