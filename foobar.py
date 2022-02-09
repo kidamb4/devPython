@@ -5,11 +5,13 @@ class DitSeries:
     """ """
 
     def __init__(self, name: str, data: t.Dict[int, t.Any]):
-        """ Constructeur qui reçoit:
-        - le nom d'une colonne
-        - le contenu de la colonne sous forme de Dictionnaire
-        - La clé du Dictionnaire est un entier
-        - La valeur du Dictionnaire est de n'importe quel type"""
+        """ Constructeur qui reçoit:"""
+        #- le nom d'une colonne
+        self.name = name 
+        #- le contenu de la colonne sous forme de Dictionnaire
+        self.data = data
+        #- La clé du Dictionnaire est un entier
+        #- La valeur du Dictionnaire est de n'importe quel type
 
     def __mul__(self, other: int) -> "DitSeries":
         """ Implementation de l'opération de multiplication.
@@ -17,6 +19,10 @@ class DitSeries:
         - La valeur renvoyée est de type DitSeries
         - Chaque élément de la série est multiplié par l'argument
         """
+        emptydict = dict()
+        for key in self.data.keys():
+            emptydict[key] = self.data[key]*other
+        return DitSeries("SerieMul",emptydict)
 
     def __div__(self, other: int) -> "DitSeries":
         """ Implementation de l'opération de division.
@@ -24,19 +30,37 @@ class DitSeries:
         - La valeur renvoyée est de type DitSeries
         - Chaque élément de la série est divisé par l'argument
         """
+        emptydict = dict()
+        for key in self.data.keys():
+            emptydict[key] = self.data[key]/other
+        return DitSeries("SerieDiv",emptydict)
+
 
     def __sub__(self, other: int) -> "DitSeries":
         """Soustraction """
-
+        emptydict = dict()
+        for key in self.data.keys():
+            emptydict[key] = self.data[key]-other
+        return DitSeries("SerieSub",emptydict)
 
     def __add__(self, other: int) -> "DitSeries":
         """Addition"""
+        emptydict = dict()
+        for key in self.data.keys():
+            emptydict[key] = self.data[key]+other
+        return DitSeries("SerieSum",emptydict)
 
     def __gt__(self, other: int) -> "DitSeries":
         """Comparaison (supérieur) """
+        emptydict = dict()
+        for key in self.data.keys():
+            emptydict[key] = self.data[key]>other
+        return DitSeries("SerieGt",emptydict)
+
 
     def __getitem__(self, key: "DitSeries") -> "DitSeries":
         """ """
+        return {key : DitSeries(self.name, self.data)}
 
     def __repr__(self) -> str:
         """ Affiche une representation de l'objet DitSeries. """
@@ -93,15 +117,15 @@ if __name__ == "__main__":
     ds4 = ds3 > 95
     print(ds4)   # <DitSeries: serie {0: False, 1: True, 2: True}>
 
-    df = DitDataFrame(
-        {
-            "id": [18, 23, 11],
-            "names": ["foo", "bar", "baz"],
-            "weights": [42.3, 57.6, 89.1],
-            "heights": [160, 192, 173],
-        }
-    )
-    print(df)
+    # df = DitDataFrame(
+    #     {
+    #         "id": [18, 23, 11],
+    #         "names": ["foo", "bar", "baz"],
+    #         "weights": [42.3, 57.6, 89.1],
+    #         "heights": [160, 192, 173],
+    #     }
+    # )
+    # print(df)
 # affiche le tableau suivant
 
 #       id | names | weights | heights
@@ -110,10 +134,10 @@ if __name__ == "__main__":
 #       23 |   bar |  57.6 |   192
 #       11 |   baz |  89.1 |   173
 
-    print(df.length)  # affiche 3
+    # print(df.length)  # affiche 3
 
-    names = df["names"]
-    print(names)  # <DitSeries: names {0: 'foo', 1: 'bar', 2: 'baz'}>
+    # names = df["names"]
+    # print(names)  # <DitSeries: names {0: 'foo', 1: 'bar', 2: 'baz'}>
 
-    where = df["heights"] > 160
-    print(df["names"][where])  # <DitSeries: names {1: 'bar', 2: 'baz'}>
+    # where = df["heights"] > 160
+    # print(df["names"][where])  # <DitSeries: names {1: 'bar', 2: 'baz'}>
